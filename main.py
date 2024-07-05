@@ -1,5 +1,7 @@
 import uvicorn
-from fastapi import FastAPI
+import os
+from fastapi import FastAPI, HTTPException, Response
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
@@ -33,6 +35,35 @@ async def startup_event():
 @app.get("/organizations", response_model=List[list])
 async def read_emails():
     return get_organizations()
+
+
+class OrganizationRequest(BaseModel):
+    oid: str
+
+
+@app.post("/get_excel")
+async def get_excel(request: OrganizationRequest):
+    oid = request.oid
+
+    # Здесь можно добавить логику для генерации файла Excel на основе oid
+    # Например, создадим временный файл с именем "organization_report.xlsx"
+    file_path = "organization_report.xlsx"
+
+    # Пример создания временного файла (замените это на вашу логику генерации файла)
+    with open(file_path, "w") as file:
+        file.write("Example Excel content")
+
+    # Проверяем, существует ли файл
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="File not found")
+
+    # Возвращаем файл для скачивания
+    response = FileResponse(
+        file_path,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        filename="organization_report.xlsx",
+    )
+    return response
 
 
 if __name__ == "__main__":
