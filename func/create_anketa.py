@@ -9,12 +9,10 @@ def create_anketa(oid: str) -> str:
 
     DICT = {
         "Отделения": ("otdelenia_vrachi", 3, 1),
+        "Корпуса стационара": ("zdania", 3, 1),
+        "Коечный фонд": ("koiki", 3, 1),
+        "Медицинское оборудование": ("oborudovanie", 3, 1),
     }
-    DATA = {}
-
-    SQL = open("func/sql/otdelenia_vrachi.sql", "r").read()
-    SQL = SQL.replace("__OID__", oid)
-    DATA["otdelenia_vrachi"] = base_sql(SQL)
 
     file_path = "/tmp/test_excel.xlsx"
     shutil.copyfile("func/organization_report.xlsx", file_path)
@@ -22,9 +20,13 @@ def create_anketa(oid: str) -> str:
     wb = openpyxl.load_workbook(file_path)
 
     for key, value in DICT.items():
+
+        SQL = open(f"func/sql/{value[0]}.sql", "r").read()
+        SQL = SQL.replace("__OID__", oid)
+        DF = base_sql(SQL)
+
         ws = wb[key]
-        print(value)
-        rows = dataframe_to_rows(DATA[value[0]], index=False, header=False)
+        rows = dataframe_to_rows(DF, index=False, header=False)
         for r_idx, row in enumerate(rows, int(value[1])):
             for c_idx, val in enumerate(row, int(value[2])):
                 ws.cell(row=r_idx, column=c_idx, value=val)
