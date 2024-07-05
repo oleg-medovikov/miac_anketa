@@ -18,9 +18,20 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 def read_root():
-    # Возвращаем HTML-файл из статической папки
+    # Читаем HTML-файл
     with open("static/index.html", "r") as f:
         html_content = f.read()
+
+    # Читаем CSS-файл
+    with open("static/index.css", "r") as f:
+        css_content = f.read()
+
+    # Встраиваем CSS и JS в HTML
+    html_content = html_content.replace(
+        '<link rel="stylesheet" href="static/index.css">',
+        f"<style>{css_content}</style>",
+    )
+
     return HTMLResponse(content=html_content, status_code=200)
 
 
