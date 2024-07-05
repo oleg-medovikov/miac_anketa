@@ -1,6 +1,6 @@
 import uvicorn
 import os
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 from typing import List
 
-from func import get_organizations
+from func import get_organizations, create_anketa
 
 
 app = FastAPI(title="miac_anketa_api")
@@ -24,14 +24,6 @@ def read_root():
     return HTMLResponse(content=html_content, status_code=200)
 
 
-@app.on_event("startup")
-async def startup_event():
-    pass
-    # await db.set_bind(settings.pg_url)
-    # await db.gino.create_all()
-    # await insert_messages(settings.file_path)
-
-
 @app.get("/organizations", response_model=List[list])
 async def read_emails():
     return get_organizations()
@@ -43,19 +35,7 @@ class OrganizationRequest(BaseModel):
 
 @app.post("/get_excel")
 async def get_excel(request: OrganizationRequest):
-    oid = request.oid
-
-    # Здесь можно добавить логику для генерации файла Excel на основе oid
-    # Например, создадим временный файл с именем "organization_report.xlsx"
-    file_path = "organization_report.xlsx"
-
-    # Пример создания временного файла (замените это на вашу логику генерации файла)
-    with open(file_path, "w") as file:
-        file.write("Example Excel content")
-
-    # Проверяем, существует ли файл
-    if not os.path.exists(file_path):
-        raise HTTPException(status_code=404, detail="File not found")
+    file_path = create_anketa(request.oid)
 
     # Возвращаем файл для скачивания
     response = FileResponse(
@@ -70,7 +50,7 @@ if __name__ == "__main__":
     uvicorn_process = uvicorn.run(
         "main:app",
         host="0.0.0.0",
-        port=8021,
+        port=8022,
         reload=True,
         workers=2,
     )
