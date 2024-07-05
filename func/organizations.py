@@ -10,13 +10,21 @@ atr = {
     "id_dictionary": 64,
     "attributes": ["oid", "display"],
     "regime": "data",
-    "count": 200,
+    "count": 1000,
     "page": 1,
     "filter": [
         {"field": "active", "value": " LIKE '%true%'"},
         {"field": "active", "value": " LIKE '%true%'"},
         {"field": "oid", "value": " LIKE '%.13.13.12.2.78.%'"},
         {"field": "inn", "value": "IS NOT NULL"},
+        {"field": "gov", "value": " NOT LIKE '%едерал%'"},
+        {"field": "gov", "value": " NOT LIKE '%астн%'"},
+        {"field": "gov", "value": " NOT LIKE '%бщество%'"},
+        {"field": "gov", "value": " NOT LIKE '%оспотребнадзор%'"},
+        {"field": "gov", "value": " NOT LIKE '%омерческие%'"},
+        {"field": "gov", "value": " NOT LIKE '%социальной политике%'"},
+        {"field": "gov", "value": " NOT LIKE '%инистерство%'"},
+        {"field": "gov", "value": " NOT LIKE '%Российская Академия наук%'"},
     ],
 }
 
