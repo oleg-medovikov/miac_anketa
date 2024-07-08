@@ -1,12 +1,13 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 
 *{
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	list-style: none;
-	text-decoration: none;
-    font-family: "Poppins", sans-serif;
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ list-style: none;
+ text-decoration: none;
+
 }
 
 html {
@@ -20,12 +21,12 @@ a {
 
 body {
     padding-top: 80px;
-	background: linear-gradient(to right, #f3964541, #00a5b735);
-	
+ background: linear-gradient(to right, #f3964541, #00a5b735);
+ 
 }
 
 .container {
-    max-width: 1400px;
+    max-width: 1700px;
     margin: 0 auto;
     padding: 0 15px;
 }
@@ -40,7 +41,7 @@ body {
     transition: box-shadow .3s;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+ box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .header__container {
@@ -72,7 +73,7 @@ body {
     list-style-type: none;
     padding: 0;
     margin: 0;
-	font-size: 18px;
+ font-size: 18px;
 }
 
 .menu__item:not(:last-child) {
@@ -80,7 +81,7 @@ body {
 }
 
 .menu__item{
-	border: 0;
+ border: 0;
 }
 
 .menu__link {
@@ -89,7 +90,7 @@ body {
 
 .dropdown-container {
     position: relative;
-    margin: 0 auto;
+    margin: 0 auto; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -103,24 +104,27 @@ body {
 }
 
 .dropdown-options {
+    margin-top: 5px;
     position: absolute;
     width: 100%;
     border: 1px solid #ccc;
     max-height: 200px;
     overflow-y: auto;
     display: none;
-    top: 100%;
-    z-index: 10;
+    top: 100%; 
+    z-index: 10; 
 }
 
 .dropdown-option {
     padding: 10px;
     background: #fff;
     cursor: pointer;
+    border-bottom: 1px solid #eee;
 }
 
 .dropdown-option:hover {
     background: #f0f0f0;
+    border-bottom: none;
 }
 
 .input-button-wrapper {
@@ -132,6 +136,7 @@ body {
 
 .download-button {
     margin-left: 10px;
+    font-size: 14px;
     cursor: pointer;
     background-color: #a7a7a7;
     color: rgb(0, 0, 0);
@@ -139,12 +144,25 @@ body {
     transition: background-color 0.3s ease;
     width: 70px;
     border-radius: 6px;
+    padding: 10px;
 }
 
 .download-button:hover {
     background-color: #d5d5d5;
 }
 
+.download-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
 .box{
     margin-top: 150px;
+}
+
+.search-box {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }

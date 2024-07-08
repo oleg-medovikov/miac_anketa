@@ -98,6 +98,23 @@
               });
           }
       });
+              function toggleDropdown() {
+            var dropdown = document.getElementById('dropdownOptions');
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+            } else {
+                dropdown.style.display = 'block';
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('input', function() {
+            var downloadButton = document.getElementById('downloadButton');
+            if (this.value.trim() !== '') {
+                downloadButton.disabled = false;
+            } else {
+                downloadButton.disabled = true;
+            }
+        });
     </script>
 </body>
 </html>
