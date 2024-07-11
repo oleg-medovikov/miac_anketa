@@ -7,6 +7,7 @@ from os import getenv
 # файл конфигурации
 main.load_dotenv(".env")
 DATABASE_URL = getenv("DATABASE_URL", default="")
+DB_URL = getenv("DB_URL", default="")
 
 
 def base_sql(sql):

@@ -21,99 +21,156 @@
         </div>
     </header>
 
+    
     <div class="box">
-
         <div class="dropdown-container">
             <div class="input-button-wrapper">
-            <input type="text" id="searchInput" class="dropdown-input" placeholder="Поиск по организациям..">
-
-            <div id="dropdownOptions" class="dropdown-options"></div>
+                <input type="text" id="searchInput" class="dropdown-input" placeholder="Поиск по организациям..">
+                <div id="dropdownOptions" class="dropdown-options"></div>
                 <button id="downloadButton" class="download-button" disabled>Скачать</button>
             </div>
         </div>
-
     </div>
 
-
     <script>
-      let selectedOrganizationId = null;
+      // Проверяем наличие токена в localStorage
+if (!localStorage.getItem('authToken')) {
+  // Если токена нет, перенаправляем на страницу входа
+  window.location.href = '/login';
+} else {
+  // Отправляем запрос к API для проверки токена
+  fetch(`/check_token`, {
+    method: 'GET',
+    headers: {
+      'Authorization': localStorage.getItem('authToken')
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (!data.token_valid) {
+      // Если токен не валиден, перенаправляем на страницу входа
+      window.location.href = '/login';
+    }
+  })
+  .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
+}
+    // получаем список организаций
+        let selectedOrganizationId = null;
 
-      document.addEventListener('DOMContentLoaded', function() {
-          fetch('/organizations')
-              .then(response => response.json())
-              .then(data => {
-                  organizations = data;
-                  populateDropdown(organizations);
-              })
-              .catch(error => console.error('Error fetching organizations:', error));
-      });
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/organizations')
+                .then(response => response.json())
+                .then(data => {
+                    organizations = data;
+                    populateDropdown(organizations);
+                })
+                .catch(error => console.error('Error fetching organizations:', error));
 
-      document.getElementById('searchInput').addEventListener('input', function() {
-          const searchValue = this.value.toLowerCase();
-          const filteredOrganizations = organizations.filter(org => org[1].toLowerCase().includes(searchValue));
-          populateDropdown(filteredOrganizations);
-      });
+            document.getElementById('searchInput').addEventListener('click', toggleDropdown);
+        });
 
-      function populateDropdown(orgList) {
-          const dropdownOptions = document.getElementById('dropdownOptions');
-          dropdownOptions.innerHTML = '';
-          orgList.forEach(org => {
-              const option = document.createElement('div');
-              option.className = 'dropdown-option';
-              option.textContent = org[1];
-              option.dataset.value = org[0];
-              option.addEventListener('click', function() {
-                  document.getElementById('searchInput').value = this.textContent;
-                  selectedOrganizationId = this.dataset.value;
-                  document.getElementById('downloadButton').disabled = false;
-                  dropdownOptions.style.display = 'none';
-              });
-              dropdownOptions.appendChild(option);
-          });
-          dropdownOptions.style.display = orgList.length > 0 ? 'block' : 'none';
-      }
-
-      document.getElementById('downloadButton').addEventListener('click', function() {
-          if (selectedOrganizationId) {
-              fetch('/get_excel', {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({ oid: selectedOrganizationId })
-              })
-              .then(response => response.blob())
-              .then(blob => {
-                  const url = window.URL.createObjectURL(blob);
-                  const a = document.createElement('a');
-                  a.href = url;
-                  a.download = 'organization_report.xlsx';
-                  document.body.appendChild(a);
-                  a.click();
-                  a.remove();
-                  window.URL.revokeObjectURL(url);
-              })
-              .catch((error) => {
-                  console.error('Error:', error);
-              });
-          }
-      });
-              function toggleDropdown() {
+        function toggleDropdown() {
             var dropdown = document.getElementById('dropdownOptions');
-            if (dropdown.style.display === 'block') {
-                dropdown.style.display = 'none';
+            if (dropdown.classList.contains('open')) {
+                dropdown.classList.remove('open');
             } else {
-                dropdown.style.display = 'block';
+                dropdown.classList.add('open');
             }
-        }
+}
 
         document.getElementById('searchInput').addEventListener('input', function() {
-            var downloadButton = document.getElementById('downloadButton');
-            if (this.value.trim() !== '') {
-                downloadButton.disabled = false;
-            } else {
-                downloadButton.disabled = true;
+            const searchValue = this.value.toLowerCase();
+            const filteredOrganizations = organizations.filter(org => org[1].toLowerCase().includes(searchValue));
+            populateDropdown(filteredOrganizations);
+        });
+
+        function populateDropdown(orgList) {
+            const dropdownOptions = document.getElementById('dropdownOptions');
+            dropdownOptions.innerHTML = '';
+            orgList.forEach(org => {
+                const option = document.createElement('div');
+                option.className = 'dropdown-option';
+                option.textContent = org[1];
+                option.dataset.value = org[0];
+                option.addEventListener('click', function() {
+                    document.getElementById('searchInput').value = this.textContent;
+                    selectedOrganizationId = this.dataset.value;
+                    document.getElementById('downloadButton').disabled = false;
+                    dropdownOptions.classList.remove('open');
+                });
+                dropdownOptions.appendChild(option);
+            });
+        }
+        document.getElementById('downloadButton').addEventListener('click', function() {
+            if (selectedOrganizationId) {
+                fetch('/get_excel', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ oid: selectedOrganizationId })
+                })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'organization_report.xlsx';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+    fetch('/organizations')
+        .then(response => response.json())
+        .then(data => {
+            organizations = data;
+            populateDropdown(organizations);
+        })
+        .catch(error => console.error('Error fetching organizations:', error));
+
+    document.getElementById('searchInput').addEventListener('click', toggleDropdown);
+
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('dropdownOptions');
+        const searchInput = document.getElementById('searchInput');
+
+        if (!searchInput.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.remove('open');
+        }
+    });
+});
+
+function toggleDropdown() {
+    var dropdown = document.getElementById('dropdownOptions');
+    if (dropdown.classList.contains('open')) {
+        dropdown.classList.remove('open');
+    } else {
+        dropdown.classList.add('open');
+    }
+}
+
+document.getElementById('downloadButton').addEventListener('click', function() {
+            const button = this;
+            button.disabled = true; 
+
+            setTimeout(function() {
+                button.disabled = false; 
+            }, 10000); 
         });
     </script>
 </body>
