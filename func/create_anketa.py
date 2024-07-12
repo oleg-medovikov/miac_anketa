@@ -11,6 +11,7 @@ def create_anketa(oid: str) -> str:
         "Карточка объекта": ("description", 2, 2),
         "Подразделения": ("otdelenia", 3, 1),
         "Отделения": ("otdelenia_vrachi", 3, 1),
+        "Сотрудники": ("sotrydniki", 3, 1),
         "Корпуса стационара": ("zdania", 3, 1),
         "Коечный фонд": ("koiki", 3, 1),
         "Медицинское оборудование": ("oborudovanie", 3, 1),
