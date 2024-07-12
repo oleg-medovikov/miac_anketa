@@ -8,6 +8,8 @@ from .miacbase_sql import base_sql
 def create_anketa(oid: str) -> str:
 
     DICT = {
+        "Карточка объекта": ("description", 2, 2),
+        "Подразделения": ("otdelenia", 3, 1),
         "Отделения": ("otdelenia_vrachi", 3, 1),
         "Корпуса стационара": ("zdania", 3, 1),
         "Коечный фонд": ("koiki", 3, 1),

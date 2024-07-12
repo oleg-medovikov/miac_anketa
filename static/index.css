@@ -24,7 +24,7 @@ a {
 body {
     padding-top: 80px;
  background: linear-gradient(to right, #f3964541, #00a5b735);
- 
+
 }
 
 .container {
@@ -92,7 +92,7 @@ body {
 
 .dropdown-container {
     position: relative;
-    margin: 0 auto; 
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -113,15 +113,15 @@ body {
     border: 1px solid #ccc;
     max-height: 0;
     overflow-y: auto;
-    top: 100%; 
-    z-index: 10; 
+    top: 100%;
+    z-index: 10;
     border-radius: 6px;
     visibility: hidden;
     transition: max-height 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .dropdown-options.open {
-    max-height: 200px; 
+    max-height: 200px;
     visibility: visible;
 }
 
@@ -148,7 +148,7 @@ body {
     margin-left: 10px;
     font-size: 14px;
     cursor: pointer;
-    background-color: #a7a7a7;
+    background-color: #bebbbb;
     color: rgb(0, 0, 0);
     border: none;
     transition: background-color 0.3s ease;
@@ -183,22 +183,67 @@ body {
 }
 
 .logout-button {
-    margin-left: 10px;
-    font-size: 14px;
-    cursor: pointer;
-    background-color: #a7a7a7;
-    color: rgb(0, 0, 0);
+    margin-right: 30px;
     border: none;
-    transition: background-color 0.3s ease;
-    width: 100px;
-    height: 45px;
-    border-radius: 6px;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background: none;
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 35px;
 }
 
+.change-password-container {
+    width: 340px;
+    padding: 10px;
+    background-color: #b8c4d1b9;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.change-password-container input[type="password"] {
+    flex: 1; 
+    padding: 10px;
+    margin-right: 10px; 
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.change-password-container button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f2f1f195;
+    font-size: 14px;
+    color: black;
+    cursor: pointer;
+}
+
+.change-password-container button:hover {
+    background-color: #d5d5d5;
+}
+
+@media (max-width: 600px) {
+    .change-password-container {
+        width: 90%;
+        margin: 0 auto;
+        flex-direction: column;
+    }
+
+    .change-password-container input[type="password"] {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .change-password-container button {
+        width: 100%;
+    }
+}
 /* Общий стиль для таблицы */
 .logs-table {
     width: 80%;

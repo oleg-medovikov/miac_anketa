@@ -18,18 +18,19 @@
                 <ul class="menu__list">
                 </ul>
             </nav>
+                <div class="change-password-container">
+                    <input type="password" id="newPasswordInput" placeholder="Новый пароль">
+                    <button id="changePasswordButton">Изменить</button>
+                </div>
 
-            <div class="change-password-container">
-                <input type="password" id="newPasswordInput" placeholder="Новый пароль">
-                <button id="changePasswordButton">Изменить пароль</button>
-            </div>
 
-        <button id="logoutButton" class="logout-button">Выход</button>
-        
+
+        <button id="logoutButton" class="logout-button"><img src="static/img/exit.png" alt="exit"></button>
+
         </div>
     </header>
 
-    
+
     <div class="box">
         <div class="dropdown-container">
             <div class="input-button-wrapper">
@@ -136,7 +137,7 @@ if (!localStorage.getItem('authToken')) {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ 
+                    body: JSON.stringify({
                       oid: selectedOrganizationId,
                       token: localStorage.getItem('authToken')
                     })
@@ -190,11 +191,11 @@ function toggleDropdown() {
 
 document.getElementById('downloadButton').addEventListener('click', function() {
             const button = this;
-            button.disabled = true; 
+            button.disabled = true;
 
             setTimeout(function() {
-                button.disabled = false; 
-            }, 10000); 
+                button.disabled = false;
+            }, 10000);
         });
 
 // кнопка для выхода
@@ -267,4 +268,4 @@ document.getElementById('downloadButton').addEventListener('click', function() {
         });
     </script>
 </body>
-</html>
+</html>  
