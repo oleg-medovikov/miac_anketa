@@ -198,3 +198,41 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+/* Общий стиль для таблицы */
+.logs-table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Стиль для заголовков таблицы */
+.logs-table th {
+    background-color: #f2f2f2;
+    width: 500px;
+    color: #333;
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Стиль для ячеек таблицы */
+.logs-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Чередование цветов строк для лучшей читаемости */
+.logs-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Подсветка строки при наведении */
+.logs-table tr:hover {
+    background-color: #f1f1f1;
+}

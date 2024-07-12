@@ -40,6 +40,19 @@
         </div>
     </div>
 
+        <table id="logsTable" class="logs-table">
+            <thead>
+                <tr>
+                    <th>Время</th>
+                    <th>Пользователь</th>
+                    <th>Событие</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Данные будут вставлены здесь через JavaScript -->
+            </tbody>
+        </table>
+
     <script>
       // Проверяем наличие токена в localStorage
 if (!localStorage.getItem('authToken')) {
@@ -234,6 +247,24 @@ document.getElementById('downloadButton').addEventListener('click', function() {
                 alert('Пожалуйста, введите новый пароль');
             }
           });
+// Заполнение таблицы логов
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/get_logs')
+                .then(response => response.json())
+                .then(logs => {
+                    const logsTableBody = document.querySelector('#logsTable tbody');
+                    logs.forEach(log => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${log.time}</td>
+                            <td>${log.username}</td>
+                            <td>${log.event}</td>
+                        `;
+                        logsTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Ошибка при получении логов:', error));
+        });
     </script>
 </body>
 </html>

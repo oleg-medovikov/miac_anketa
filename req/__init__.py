@@ -6,6 +6,7 @@ from .check_token import check_token
 from .get_excel import get_excel
 from .user_logout import user_logout
 from .change_password import change_password
+from .get_logs import get_logs
 
 __all__ = [
     "app",
@@ -17,4 +18,5 @@ __all__ = [
     "get_excel",
     "user_logout",
     "change_password",
+    "get_logs",
 ]
