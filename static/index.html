@@ -18,6 +18,14 @@
                 <ul class="menu__list">
                 </ul>
             </nav>
+
+            <div class="change-password-container">
+                <input type="password" id="newPasswordInput" placeholder="Новый пароль">
+                <button id="changePasswordButton">Изменить пароль</button>
+            </div>
+
+        <button id="logoutButton" class="logout-button">Выход</button>
+        
         </div>
     </header>
 
@@ -172,6 +180,57 @@ document.getElementById('downloadButton').addEventListener('click', function() {
                 button.disabled = false; 
             }, 10000); 
         });
+
+// кнопка для выхода
+        document.getElementById('logoutButton').addEventListener('click', function() {
+            fetch('/user_logout', {
+                method: 'GET',
+                headers: {
+                    'Authorization': localStorage.getItem('authToken')
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                localStorage.removeItem('authToken');
+                window.location.href = '/login';
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        });
+// изменение пароля пользователя
+        document.getElementById('changePasswordButton').addEventListener('click', function() {
+            const newPassword = document.getElementById('newPasswordInput').value;
+            const authToken = localStorage.getItem('authToken');
+
+            if (newPassword && authToken) {
+                fetch('/change_password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        new_password: newPassword,
+                        token: authToken
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Пароль успешно изменен');
+                    } else {
+                        alert('Ошибка при изменении пароля');
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                });
+            } else {
+                alert('Пожалуйста, введите новый пароль');
+            }
+          });
     </script>
 </body>
 </html>

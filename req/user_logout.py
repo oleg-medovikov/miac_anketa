@@ -10,5 +10,5 @@ async def user_logout(request: Request):
     if not auth_header:
         return False
 
-    await User.upate.values(token=None).where(User.token == auth_header).gino.status()
+    await User.update.values(token=None).where(User.token == auth_header).gino.status()
     return True
