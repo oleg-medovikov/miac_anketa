@@ -2,7 +2,7 @@ import bcrypt
 from pydantic import BaseModel
 
 from .app import app
-from models import User
+from models import User, Log
 
 
 class UserChangePassword(BaseModel):
@@ -23,5 +23,7 @@ async def change_password(request: UserChangePassword):
             request.new_password.encode("utf-8"), bcrypt.gensalt()
         ).decode("utf-8")
     ).apply()
+
+    await Log.create(user_id=user.guid, event="сменил пароль")
 
     return {"success": True}
