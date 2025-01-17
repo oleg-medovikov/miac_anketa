@@ -3,6 +3,7 @@ import openpyxl
 from openpyxl.utils.dataframe import dataframe_to_rows
 
 from .miacbase_sql import base_sql
+from .otdelenia import get_combined_df
 
 
 def create_anketa(oid: str) -> str:
@@ -24,9 +25,12 @@ def create_anketa(oid: str) -> str:
 
     for key, value in DICT.items():
 
-        SQL = open(f"func/sql/{value[0]}.sql", "r").read()
-        SQL = SQL.replace("__OID__", oid)
-        DF = base_sql(SQL)
+        if key in ["Подразделения"]:
+            DF = get_combined_df(oid)
+        else:
+            SQL = open(f"func/sql/{value[0]}.sql", "r").read()
+            SQL = SQL.replace("__OID__", oid)
+            DF = base_sql(SQL)
 
         ws = wb[key]
         rows = dataframe_to_rows(DF, index=False, header=False)
